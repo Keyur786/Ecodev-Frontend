@@ -9,6 +9,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LandAgreementForm from "./LandAgreementForm";
 import LandAgreementCard from "./LandAgreementCard";
+import FarmerProfile from "./FarmerProfile";
 
 
 
@@ -152,7 +153,8 @@ const LandApplications = () => {
   const [landOwnerId, setLandOwnerId] = useState();
   const [farmerId, setFarmerId] = useState();
   const [landId, setLandId] = useState();
-  const [isLoading, setIsLoading] = useState(true); // Add a loading state
+  const [showFarmerProfile, setShowFarmerProfile] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
 
   const fetchFormData = ({ appId, landowner, farmer, landid }) => {
@@ -203,9 +205,19 @@ const LandApplications = () => {
     setActiveTab("applications");
   }, []);
 
+  let passedId;
+
   const handleFarmerProfileOpen = (farmerId) => {
-  
+    passedId = farmerId;
+    setSelectedFarmerId(farmerId);
+
+    setShowFarmerProfile(true);
   };
+
+  const handleFarmerProfileClose = () => {
+    setShowFarmerProfile(false);
+  };
+
 
   return (
     <div className="flex flex-col h-screen">
