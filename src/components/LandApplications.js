@@ -7,6 +7,8 @@ import FilterTag from "./FilterTag";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LandAgreementForm from "./LandAgreementForm";
+import LandAgreementCard from "./LandAgreementCard";
 
 
 
@@ -16,6 +18,7 @@ const LandApplications = () => {
   const [lands, setLands] = useState([]);
   const [applications, setApplications] = useState([]);
   const [selectedLandId, setSelectedLandId] = useState(null);
+  const [agreements, setAgreements] = useState([]);
   const [filteredApplications, setFilteredApplications] = useState([]);
   const [farmersInfo, setfarmersInfo] = useState([]);
   const [activeTab, setActiveTab] = useState("lands");
@@ -58,7 +61,30 @@ const LandApplications = () => {
       }
     };
 
+    const fetchAgreements = async () => {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/agreements"
+      );
+      if (response.data && storedUserData) {
+        if (isLandOwner) {
+          const currentAgreements = response.data.filter(
+            (agreement) => agreement.landowner === storedUserData.id
+          );
+          setAgreements(currentAgreements);
+        } else {
+          const currentAgreements = response.data.filter(
+            (agreement) => agreement.farmer === storedUserData.id
+          );
+          setAgreements(currentAgreements);
+        }
+      } else {
+        setAgreements(response.data);
+      }
+    };
+
     fetchApplications();
+    fetchAgreements();
+
   }, []);
 
   useEffect(() => {
@@ -244,7 +270,9 @@ const LandApplications = () => {
 
         {activeTab === "agreements" && (
           <div>
-            
+            <div className="w-full" style={{ minHeight: "100vh" }}>
+              <LandAgreementCard lands={agreements} onLandClick={handleLandClick} />
+            </div>
           </div>
         )}
 
