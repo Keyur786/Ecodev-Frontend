@@ -6,27 +6,29 @@ const vehicleOptions = [
   { name: "Truck", pricePerKm: 17 },
 ];
 
-const StorageAgreementForm = ({ marker, onSuccess }) => {
-  const storedDBData = JSON.parse(localStorage.getItem("storedDBData"));
-  console.log("Harsh", storedDBData);
-  const [formData, setFormData] = useState({
-    firstName: storedDBData.user.first_name,
-    lastName: storedDBData.user.last_name,
-    email: storedDBData.user.email,
-    address: marker ? marker.street_address : "",
-    pickupAddress: "",
-    cropName: marker ? marker.crop_type : "",
-    total_cost: 0,
-    weight: "",
-    areaNeeded: "",
-    needVehicle: false,
-    vehicleType: "",
-    pickupDateTime: "",
-    distance: "",
-  });
-  const [storageCost, setStorageCost] = useState(0);
-  const [vehicleCost, setVehicleCost] = useState(0);
-  const [totalCost, setTotalCost] = useState(0);
+const StorageAgreementForm = ({ marker }) => {
+    const storedDBData = JSON.parse(localStorage.getItem('storedDBData'));
+
+    const [formData, setFormData] = useState({
+        firstName: storedDBData.user.first_name,
+        lastName: storedDBData.user.last_name,
+        email: storedDBData.user.email,
+        phoneNumber: '',
+        address: marker ? marker.street_address : '',
+        pickupAddress: '',
+        cropName: marker ? marker.crop_type : '',
+        weight: '',
+        areaNeeded: '',
+        needVehicle: false,
+        vehicleType: '',
+        pickupDateTime: '',
+        distance: ''
+    });
+    const [storageCost, setStorageCost] = useState(0);
+    const [vehicleCost, setVehicleCost] = useState(0);
+    const [totalCost, setTotalCost] = useState(0);
+
+    
 
   useEffect(() => {
     const cost = formData.areaNeeded ? Number(formData.areaNeeded) * 15 : 0;
