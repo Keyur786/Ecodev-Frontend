@@ -64,7 +64,7 @@ const ApplicationCard = ({
                 application.landid
               );
               onAccept(
-                application.id,
+                application,
                 application.landowner,
                 application.farmer,
                 application.landid

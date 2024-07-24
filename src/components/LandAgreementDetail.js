@@ -20,7 +20,7 @@ const LandAgreementDetail = ({agreement}) => {
   //   const agreementContent = `
   //     Land Agreement
 
-  //     This agreement is made and entered into on ${date}, by and between ${agreement.landowner_extended.user_name} (hereinafter referred to as "Landowner") and ${agreement.farmer_extended.user_name} (hereinafter referred to as "Farmer").
+  //     This agreement is made and entered into on ${date}, by and between ${agreement.extendeduser.user_name} (hereinafter referred to as "Landowner") and ${agreement.farmer_extended.user_name} (hereinafter referred to as "Farmer").
 
   //     The Landowner agrees to lease to the Farmer the land located at ${agreement.landid} (hereinafter referred to as "the Property"), under the following terms and conditions:
 

@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 const LandAgreementCard = ({ landAgreements, onLandAgreementClick }) => {
   const navigate = useNavigate();
 
+
   return (
     <section className="bg-sky-50 p-5 lg:p-10">
       <div className="container mx-auto">
@@ -13,7 +14,7 @@ const LandAgreementCard = ({ landAgreements, onLandAgreementClick }) => {
             <div className="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden hover:shadow-2xl transition-shadow duration-300">
               <div className="p-5">
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">
-                  Agreement for Land: {landAgreement.landid}
+                  Agreement for Land: {landAgreement.land_detail.land_name}
                 </h5>
                 <p className="mb-2 font-normal text-gray-700 text-shadow-default">
                   <span className="font-semibold">Duration:</span>{" "}

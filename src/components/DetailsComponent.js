@@ -3,9 +3,18 @@ import styled from "styled-components";
 import { Modal } from "flowbite-react";
 import StorageAgreementForm from "./StorageAgreementForm";
 import { Button } from "@material-tailwind/react";
+import PopUp from "./PopUp";
 
 function DetailsComponent({ marker }) {
   const [openModal, setOpenModal] = useState(false);
+  const [popUp, setPopUp] = useState({ isVisible: false, message: "" });
+  const showPopUp = (message) => {
+    setPopUp({ isVisible: true, message });
+  };
+  const closeModal = () => {
+    setOpenModal(false);
+    showPopUp("Storage Application Submitted Successfully!");
+  };
 
   return (
     <>
@@ -48,10 +57,15 @@ function DetailsComponent({ marker }) {
             </h2>
           </Modal.Header>
           <Modal.Body>
-            <StorageAgreementForm marker={marker} />
+            <StorageAgreementForm marker={marker} onSuccess={closeModal}/>
           </Modal.Body>
         </Modal>
       )}
+      <PopUp
+        isVisible={popUp.isVisible}
+        message={popUp.message}
+        onClose={() => setPopUp({ isVisible: false, message: "" })}
+      />
     </>
   );
 }

@@ -27,20 +27,24 @@ const cropList = [
   'Other products',
 ];
 
-function LandAgreementForm(props) {
+function LandAgreementForm({preFormData}) {
 
-  const { landOwnerId, farmerId, landId, landOwnerName, farmerName, landAddress } = props.preFormData;
+  console.log("Harsh data", preFormData);
+
+  const storedDBData = JSON.parse(localStorage.getItem('storedDBData'));
+
+  const { landOwnerId, farmerId, landId, landOwnerName, farmerName, landAddress } = preFormData;
 
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    landOwnerName: landOwnerName,
-    farmerName: farmerName,
-    landAddress: landAddress,
+    landOwnerName: preFormData.landApplication.landowner_extended.user_name,
+    farmerName: preFormData.landApplication.farmer_extended.user_name,
+    landAddress: preFormData.landApplication.land_detail.street_address + ", " + preFormData.landApplication.land_detail.city + ", " + preFormData.landApplication.land_detail.province,
     agreementDuration: '',
     durationType: 'years',
-    decidedCrop: [0],
-    facilitiesAndEquipment: '',
+    decidedCrop: preFormData.landApplication.product_planning_to_produce,
+    facilitiesAndEquipment: preFormData.landApplication.facility_and_equipment_agreed_to,
     agreementDescription: '',
   });
 
@@ -70,15 +74,15 @@ function LandAgreementForm(props) {
 
   };
 
-  const updateLandApplicationStatus = async (url, status) => {
-    const data = {
-      status: status
-    };
+  const updateLandApplicationStatus = async (appId, status) => {
     try {
-      const response = await axios.patch(url, data);
+      const response = await axios.put(
+        `http://127.0.0.1:8000/api/landapplications/${appId}/status`,
+        { status: status }
+      );
       console.log(response.data);
     } catch (error) {
-      console.error('error', error);
+      console.error("error", error);
     }
   };
 
@@ -86,9 +90,9 @@ function LandAgreementForm(props) {
     e.preventDefault();
 
     const apiPayload = {
-      landowner: landOwnerId,
-      farmer: farmerId,
-      landid: landId,
+      landowner: preFormData.landApplication.landowner_extended.id,
+      farmer: preFormData.landApplication.farmer_extended.id,
+      landid: preFormData.landApplication.land_detail.id,
       agreement_duration: formData.agreementDuration + ' ' + formData.durationType,
       product_planning_to_produce: [1],
       facility_and_equipment_agreed_to: formData.facilitiesAndEquipment,
@@ -97,8 +101,8 @@ function LandAgreementForm(props) {
 
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/agreements", apiPayload);
-      updateLandApplicationStatus(`http://127.0.0.1:8000/api/landapplications/${landId}`, 'Accepted');
-      console.log(response.data);
+      updateLandApplicationStatus(preFormData.landApplication.id, "Accepted");
+      // console.log(response.data);
       alert('Agreement Submitted Successfully!');
       navigate('/landapplications')
 
