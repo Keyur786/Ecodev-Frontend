@@ -28,7 +28,7 @@ const Header = () => {
           const currentApplications = response.data.filter(
             (application) => application.landowner === storedDBData.id
           );
-          setNotificationCount(len(currentApplications));
+          setNotificationCount(currentApplications.length);
         }
       } else {
         setNotificationCount(0);

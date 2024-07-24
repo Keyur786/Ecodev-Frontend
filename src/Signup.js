@@ -19,8 +19,8 @@ const SignUp = () => {
     const showPopUp = (message) => {
         setPopUp({ isVisible: true, message });
         setTimeout(() => {
-            setPopUp({ isVisible: false, message: '' }); // Automatically close the pop-up after some time
-        }, 5000); // Adjust time as needed
+            setPopUp({ isVisible: false, message: '' }); 
+        }, 5000);
     };
 
     const handleSignUp = async () => {
@@ -28,7 +28,6 @@ const SignUp = () => {
             const user = await signUp(email, password, username);
             showPopUp("Please check your email to verify your account.");
 
-            // Setting cookies in the headers
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
@@ -36,7 +35,6 @@ const SignUp = () => {
                 }
             };
 
-            // First API Call with axios
             const response = await axios.post("http://192.168.45.253:8000/register/", {
                 username: username,
                 email: email,
@@ -48,33 +46,12 @@ const SignUp = () => {
             const userId = response.data.id;
             const designation = userType === 'farmer' ? 'F' : 'L';
 
-            // Second API Call after the first one
-            // const extendedUserResponse = await axios.post("http://192.168.45.253:8000/api/extendedusers", {
-            //     user: userId,
-            //     user_name: username,
-            //     designation: designation,
-            //     about_me: username // Adjust as necessary
-            // });
-
-            console.log("Extended user details created", extendedUserResponse.data);
             navigate("/login");
         } catch (error) {
             console.error("Error during sign up or API calls:", error.message);
         }
     };
 
-    // const handleGoogleSignUp = async () => {
-    //     try {
-    //         const user = await googleSignUp();
-    //         console.log("Signed in with Google:", user);
-    //         // Handle the successful sign-in here
-    //         // For example, redirect to a dashboard
-    //         navigate('/dashboard');
-    //     } catch (error) {
-    //         // Handle errors here, such as displaying a notification to the user
-    //         console.error("Error during Google sign-up:", error.message);
-    //     }
-    // };
 
     return (
 
