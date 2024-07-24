@@ -8,7 +8,7 @@ const vehicleOptions = [
 
 const StorageAgreementForm = ({ marker }) => {
     const storedDBData = JSON.parse(localStorage.getItem('storedDBData'));
-
+    console.log("Harsh", storedDBData);
     const [formData, setFormData] = useState({
         firstName: storedDBData.user.first_name,
         lastName: storedDBData.user.last_name,

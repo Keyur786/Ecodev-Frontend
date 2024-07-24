@@ -1,14 +1,14 @@
-# Farm Tech
+# EcoDevs
 
-Farm Tech is an innovative online platform that aims to revolutionize the Canadian agricultural sector by optimizing land usage, fostering collaborations between landowners and farmers, and implementing digital storage solutions to reduce food waste.
+EcoDevs is an innovative online platform that aims to revolutionize the Canadian agricultural sector by optimizing land usage, fostering collaborations between landowners and farmers, and implementing digital storage solutions to reduce food waste.
 
 ## Overview
 
-The project addresses two major challenges in Canadian agriculture: the underutilization of agricultural land and the prevalent issue of food wastage due to inadequate storage facilities. Farm Tech provides a comprehensive solution by:
+The project addresses two major challenges in Canadian agriculture: the underutilization of agricultural land and the prevalent issue of food wastage due to inadequate storage facilities. EcoDevs provides a comprehensive solution by:
 
 1. **Land-Farmer Collaboration Platform**: This platform facilitates partnerships between landowners and farmers, enabling landowners to list their underutilized land and allowing farmers to explore and secure land for cultivation.
 
-2. **Digital Storage Solution**: Farm Tech offers secure, temperature-regulated storage facilities tailored to meet the specific needs of different crop types. This feature helps farmers preserve their harvests, extend shelf life, and maximize market value.
+2. **Digital Storage Solution**: EcoDevs offers secure, temperature-regulated storage facilities tailored to meet the specific needs of different crop types. This feature helps farmers preserve their harvests, extend shelf life, and maximize market value.
 
 3. **Crop Recommendation System**: Powered by a Random Forest algorithm, the platform provides personalized crop recommendations to farmers based on environmental factors, regional characteristics, and soil data. This data-driven approach aims to enhance agricultural productivity and profitability.
 
@@ -69,4 +69,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Contact
 
-For any inquiries or support, please contact the project team at [contact@farmtech.ca](mailto:contact@farmtech.ca).
+For any inquiries or support, please contact the project team at [contact@ecodevs.ca](mailto:contact@ecodevs.ca).

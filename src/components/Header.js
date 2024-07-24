@@ -75,8 +75,7 @@ const Header = () => {
       }`}
     >
       <NavLink to="/" className="flex items-center space-x-3">
-        <img src="./images/logo1.webp" alt="FarmTech logo" className="h-12" />
-        {/* <img src="./images/logo.png" alt="FarmTech logo" className="h-12" /> */}
+        <img src="./images/logo1.webp" alt="EcoDevs logo" className="h-12" />
         <span className="text-xl font-bold">ECODEVS</span>
       </NavLink>
       <nav className="flex justify-center items-center gap-16 text-lg flex-1">
