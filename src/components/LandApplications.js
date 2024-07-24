@@ -82,7 +82,7 @@ const LandApplications = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       const response = await axios.get(
-        "http://192.168.45.253:8000/api/landapplications"
+        "http://127.0.0.1:8000/api/landapplications"
       );
       if (response.data && storedUserData) {
         if (isLandOwner) {
@@ -104,7 +104,7 @@ const LandApplications = () => {
 
     const fetchAgreements = async () => {
       const response = await axios.get(
-        "http://192.168.45.253:8000/api/agreements"
+        "http://127.0.0.1:8000/api/agreements"
       );
       if (response.data && storedUserData) {
         console.log("Harsh", response.data);
@@ -132,7 +132,7 @@ const LandApplications = () => {
     const fetchLands = async () => {
       setIsLoading(true);
 
-      const response = await axios.get("http://192.168.45.253:8000/api/lands");
+      const response = await axios.get("http://127.0.0.1:8000/api/lands");
       if (response.data && storedUserData) {
         if (isLandOwner) {
           const filteredLands = response.data.filter(
@@ -161,7 +161,7 @@ const LandApplications = () => {
 
   const fetchExtendedUsers = async () => {
     const extendedUsersResponse = await axios.get(
-      "http://192.168.45.253:8000/api/extendedusers"
+      "http://127.0.0.1:8000/api/extendedusers"
     );
     const extendedUsers = extendedUsersResponse.data;
 
@@ -249,7 +249,7 @@ const LandApplications = () => {
   const updateLandApplicationStatus = async (appId, status) => {
     try {
       const response = await axios.put(
-        `http://192.168.45.253:8000/api/landapplications/${appId}/status`,
+        `http://127.0.0.1:8000/api/landapplications/${appId}/status`,
         { status: status }
       );
       console.log(response.data);

@@ -21,7 +21,7 @@ const Header = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       const response = await axios.get(
-        "http://192.168.45.253:8000/api/landapplications"
+        "http://127.0.0.1:8000/api/landapplications"
       );
       if (response.data && storedDBData) {
         if (isLandOwner) {

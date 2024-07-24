@@ -32,7 +32,7 @@ const LoginComponant = () => {
 
           const config = {
             method: "post",
-            url: "http://192.168.45.253:8000/login/",
+            url: "http://127.0.0.1:8000/login/",
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
               Cookie: "csrftoken=Q10eo92VTUqH3eLEtYyYOD5bKGAkL9ix",
@@ -49,7 +49,7 @@ const LoginComponant = () => {
                 setCurrentUserId(userData.user_id);
 
                 const response2 = axios.get(
-                  "http://192.168.45.253:8000/api/extendedusers",
+                  "http://127.0.0.1:8000/api/extendedusers",
                   {
                     headers: {
                       "Content-Type": "application/json",

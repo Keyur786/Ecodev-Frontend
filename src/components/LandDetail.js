@@ -14,7 +14,7 @@ const LandDetail = () => {
   const navigate = useNavigate();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedImage, setSelectedImage] = useState(
-    `http://192.168.45.253:8000/${land.land_image_names[selectedImageIndex]}`
+    `http://127.0.0.1:8000/${land.land_image_names[selectedImageIndex]}`
   );
 
   const [landApplicationId, setLandApplicationId] = useState("");
@@ -64,13 +64,13 @@ const LandDetail = () => {
   const handleThumbnailClick = (index) => {
     setSelectedImageIndex(index);
     setSelectedImage(
-      `http://192.168.45.253:8000/${land.land_image_names[index]}`
+      `http://127.0.0.1:8000/${land.land_image_names[index]}`
     );
   };
 
   const updateLandApplicationStatus = async () => {
     const response = await fetch(
-      `http://192.168.45.253:8000/api/landapplications/${land.id}/status`,
+      `http://127.0.0.1:8000/api/landapplications/${land.id}/status`,
       {
         method: "PATCH",
         headers: {
@@ -116,7 +116,7 @@ const LandDetail = () => {
                 onClick={() => handleThumbnailClick(index)}
               >
                 <img
-                  src={`http://192.168.45.253:8000/${image}`}
+                  src={`http://127.0.0.1:8000/${image}`}
                   alt={`Thumbnail ${index}`}
                   className="w-20 h-20 object-cover"
                 />

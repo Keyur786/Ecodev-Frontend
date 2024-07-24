@@ -85,7 +85,7 @@ const LandPosting = () => {
 
         const config = {
             method: 'post',
-            url: 'http://192.168.45.253:8000/upload_images/?images=',
+            url: 'http://127.0.0.1:8000/upload_images/?images=',
             data: formData,
             redirect: 'follow'
         };
@@ -132,7 +132,7 @@ const LandPosting = () => {
         });
 
         try {
-            const response = axios.post('http://192.168.45.253:8000/api/lands', formData).then(response => {
+            const response = axios.post('http://127.0.0.1:8000/api/lands', formData).then(response => {
                 resetFormState();
                 setShowPopup(true);
                 setTimeout(() => setShowPopup(false), 3000);

@@ -88,7 +88,7 @@ function LandApplicationForm({land_data, onSuccess}) {
 
     try {
       const response = await fetch(
-        "http://192.168.45.253:8000/api/landapplications/create",
+        "http://127.0.0.1:8000/api/landapplications/create",
         {
           method: "POST",
           headers: {

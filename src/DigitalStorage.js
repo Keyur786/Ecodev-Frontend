@@ -17,7 +17,7 @@ const DigitalStorage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://192.168.45.253:8000/api/storage"
+          "http://127.0.0.1:8000/api/storage"
         );
         setMarkersData(response.data);
         setFilteredMarkers(response.data);
