@@ -1,37 +1,75 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import LandCard from "./LandCard";
+import axios from "axios"; 
+import LandCard from "./LandCard"; 
+import ChatPage from "../ChatPage";
+import LandAgreementForm from "./LandAgreementForm";
+import LandAgreementDetail from "./LandAgreementDetail";
 import { Button, Modal } from "flowbite-react";
 import LandApplicationsAccordion from "./LandApplicationsAccordion";
 import FilterTag from "./FilterTag";
+import FarmerProfile from "./FarmerProfile"; 
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import LandAgreementForm from "./LandAgreementForm";
 import LandAgreementCard from "./LandAgreementCard";
-import FarmerProfile from "./FarmerProfile";
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 const LandApplications = () => {
-
   const navigate = useNavigate();
   const [lands, setLands] = useState([]);
   const [applications, setApplications] = useState([]);
-  const [selectedLandId, setSelectedLandId] = useState(null);
   const [agreements, setAgreements] = useState([]);
+  const [selectedLandId, setSelectedLandId] = useState(null);
   const [filteredApplications, setFilteredApplications] = useState([]);
   const [farmersInfo, setfarmersInfo] = useState([]);
   const [activeTab, setActiveTab] = useState("lands");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [openModalAgreement, setOpenModalAgreement] = useState(false);
   const [selectedLandDetails, setSelectedLandDetails] = useState(null);
   const [isTagVisible, setIsTagVisible] = useState(false);
+  const [showFarmerProfile, setShowFarmerProfile] = useState(false);
   const [selectedFarmerId, setSelectedFarmerId] = useState(null);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [pendingApplicationId, setPendingApplicationId] = useState(null);
+  const [selectedLandAgreement, setSelectedLandAgreement] = useState(null);
+
+  const promptIgnoreConfirmation = (appId) => {
+    setPendingApplicationId(appId);
+    setIsConfirmationOpen(true);
+  };
 
   const showNotification = (message) => {
     toast(message);
-  }
+  };
+
+  const [formData, setFormData] = useState({
+    landOwnerName: "",
+    farmerName: "",
+    landAddress: "",
+    agreementDuration: "",
+    durationType: "years",
+    decidedCrop: "",
+    facilitiesAndEquipment: "",
+    agreementDescription: "",
+  });
+
+  const activeTabClass = "bg-green-200";
+  const inactiveTabClass =
+    "hover:bg-green-100 text-gray-700 hover:text-gray-900";
+
+  let passedId;
+
+  const handleFarmerProfileOpen = (farmerId) => {
+    passedId = farmerId;
+    setSelectedFarmerId(farmerId);
+
+    setShowFarmerProfile(true);
+  };
+
+  const handleFarmerProfileClose = () => {
+    setShowFarmerProfile(false);
+  };
 
   const storedDBData = JSON.parse(localStorage.getItem("storedDBData"));
   let isLandOwner = false;
@@ -40,10 +78,11 @@ const LandApplications = () => {
   }
 
   const storedUserData = JSON.parse(localStorage.getItem("storedDBData"));
+
   useEffect(() => {
     const fetchApplications = async () => {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/landapplications"
+        "http://192.168.45.253:8000/api/landapplications"
       );
       if (response.data && storedUserData) {
         if (isLandOwner) {
@@ -51,6 +90,7 @@ const LandApplications = () => {
             (application) => application.landowner === storedUserData.id
           );
           setApplications(currentApplications);
+          // fetchExtendedUsers();
         } else {
           const currentApplications = response.data.filter(
             (application) => application.farmer === storedUserData.id
@@ -64,9 +104,10 @@ const LandApplications = () => {
 
     const fetchAgreements = async () => {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/agreements"
+        "http://192.168.45.253:8000/api/agreements"
       );
       if (response.data && storedUserData) {
+        console.log("Harsh", response.data);
         if (isLandOwner) {
           const currentAgreements = response.data.filter(
             (agreement) => agreement.landowner === storedUserData.id
@@ -85,14 +126,13 @@ const LandApplications = () => {
 
     fetchApplications();
     fetchAgreements();
-
   }, []);
 
   useEffect(() => {
     const fetchLands = async () => {
-      setIsLoading(true); // Begin loading
+      setIsLoading(true);
 
-      const response = await axios.get("http://127.0.0.1:8000/api/lands");
+      const response = await axios.get("http://192.168.45.253:8000/api/lands");
       if (response.data && storedUserData) {
         if (isLandOwner) {
           const filteredLands = response.data.filter(
@@ -103,11 +143,14 @@ const LandApplications = () => {
           setLands(filteredLands);
         } else {
           const landIdsInApplications = applications.map((app) => app.landid);
+
           const filteredLands = response.data.filter((land) =>
             landIdsInApplications.includes(land.id)
           );
           setLands(filteredLands);
         }
+
+      
       } else {
         setLands(response.data);
       }
@@ -118,12 +161,13 @@ const LandApplications = () => {
 
   const fetchExtendedUsers = async () => {
     const extendedUsersResponse = await axios.get(
-      "http://127.0.0.1:8000/api/extendedusers"
+      "http://192.168.45.253:8000/api/extendedusers"
     );
     const extendedUsers = extendedUsersResponse.data;
 
     if (isLandOwner) {
       const farmerIds = new Set(applications.map((app) => app.farmer));
+
       const farmersInfo = extendedUsers
         .filter((user) => farmerIds.has(user.id))
         .map((user) => ({ userId: user.id, username: user.user_name }));
@@ -137,7 +181,7 @@ const LandApplications = () => {
         .filter((user) => landownerIds.has(user.id))
         .map((user) => ({ userId: user.id, username: user.user_name }));
 
-      console.log("found landow", farmersInfo);
+      console.log("found land", farmersInfo);
 
       setfarmersInfo(farmersInfo);
     }
@@ -153,9 +197,8 @@ const LandApplications = () => {
   const [landOwnerId, setLandOwnerId] = useState();
   const [farmerId, setFarmerId] = useState();
   const [landId, setLandId] = useState();
-  const [showFarmerProfile, setShowFarmerProfile] = useState(false);
+  const [landApplication, setLandApplication] = useState();
   const [isLoading, setIsLoading] = useState(true);
-
 
   const fetchFormData = ({ appId, landowner, farmer, landid }) => {
     setLandOwnerId(landowner);
@@ -175,76 +218,91 @@ const LandApplications = () => {
   };
 
   useEffect(() => {
-    // This useEffect runs whenever selectedLandId changes.
     const newFilteredApplications = selectedLandId
       ? applications.filter((app) => app.landid === selectedLandId)
       : applications;
     setFilteredApplications(newFilteredApplications);
-  }, [selectedLandId, applications]); // Depend on both selectedLandId and applications to re-filter when either changes
+  }, [selectedLandId, applications]);
 
   const handleLandClick = (land) => {
     setSelectedLandId(land.id);
     setSelectedLandDetails(land);
     setIsTagVisible(true);
+    setOpenModal(true);
+  };
+
+  const handleLandAgreementClick = (landAgreement) => {
+    console.log("vatsal", landAgreement);
+    setOpenModalAgreement(true);
+    setSelectedLandAgreement(landAgreement);
   };
 
   const handleClear = () => {
     setIsTagVisible(false);
   };
 
-  const handleAccept = (id, landowner, farmer, landid) => {
-    fetchFormData({ id, landowner, farmer, landid });
-    console.log("Accepted application with ID:", id);
+  const handleAccept = (landApplication) => {
+    setLandApplication(landApplication);
     setOpenModal(true);
   };
 
-  const handleIgnore = (appId) => {
-    
+  const updateLandApplicationStatus = async (appId, status) => {
+    try {
+      const response = await axios.put(
+        `http://192.168.45.253:8000/api/landapplications/${appId}/status`,
+        { status: status }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("error", error);
+    }
   };
+
+  const handleIgnore = (appId) => {
+    console.log("Ignored application with ID:", appId);
+    setOpenModal(false);
+    const updatedFilteredApplications = filteredApplications.filter(
+      (application) => application.id !== appId
+    );
+    updateLandApplicationStatus(appId, "Rejected");
+    setFilteredApplications(updatedFilteredApplications);
+    setIsConfirmationOpen(false);
+    showNotification("Application rejected.");
+  };
+
   useEffect(() => {
     setActiveTab("applications");
   }, []);
 
-  let passedId;
-
-  const handleFarmerProfileOpen = (farmerId) => {
-    passedId = farmerId;
-    setSelectedFarmerId(farmerId);
-
-    setShowFarmerProfile(true);
-  };
-
-  const handleFarmerProfileClose = () => {
-    setShowFarmerProfile(false);
-  };
-
-
   return (
     <div className="flex flex-col h-screen">
-      <header className="flex justify-between items-center text-lg font-semibold bg-gray-300 shadow-md">
+      <header className="flex justify-between items-center text-lg font-semibold bg-green-100 shadow-md">
         <button
-          className={`flex-grow text-center py-2 rounded-t-lg transition-colors duration-300 ${activeTab === "applications"
-            ? "bg-gray-400 text-white"
-            : "text-gray-800 hover:bg-gray-200"
-            }`}
+          className={`flex-grow text-center py-2 rounded-t-lg transition-colors duration-300 ${
+            activeTab === "applications"
+              ? "bg-green-400 text-white"
+              : "text-green-800 hover:bg-green-200"
+          }`}
           onClick={() => setActiveTab("applications")}
         >
           Applications
         </button>
         <button
-          className={`flex-grow text-center py-2 rounded-t-lg transition-colors duration-300 ${activeTab === "agreements"
-            ? "bg-gray-400 text-white"
-            : "text-gray-800 hover:bg-gray-200"
-            }`}
+          className={`flex-grow text-center py-2 rounded-t-lg transition-colors duration-300 ${
+            activeTab === "agreements"
+              ? "bg-green-400 text-white"
+              : "text-green-800 hover:bg-gree-200"
+          }`}
           onClick={() => setActiveTab("agreements")}
         >
           Agreements
         </button>
         <button
-          className={`flex-grow text-center py-2 rounded-t-lg transition-colors duration-300 ${activeTab === "chat"
-            ? "bg-gray-400 text-white"
-            : "text-gray-800 hover:bg-gray-200"
-            }`}
+          className={`flex-grow text-center py-2 rounded-t-lg transition-colors duration-300 ${
+            activeTab === "chat"
+              ? "bg-greem-400 text-gray"
+              : "text-green-800 hover:bg-green-200"
+          }`}
           onClick={() => setActiveTab("chat")}
         >
           Chat
@@ -262,7 +320,7 @@ const LandApplications = () => {
             <div className="flex flex-row">
               <div className="w-3/4 p-4">
                 {isLoading ? (
-                  <div>Loading lands...</div> 
+                  <div>Loading lands...</div>
                 ) : (
                   <LandCard lands={lands} onLandClick={handleLandClick} />
                 )}
@@ -283,17 +341,37 @@ const LandApplications = () => {
         {activeTab === "agreements" && (
           <div>
             <div className="w-full" style={{ minHeight: "100vh" }}>
-              <LandAgreementCard lands={agreements} onLandClick={handleLandClick} />
+              <LandAgreementCard
+                landAgreements={agreements}
+                onLandAgreementClick={handleLandAgreementClick}
+              />
             </div>
           </div>
         )}
 
         {activeTab === "chat" && (
           <div>
-            
+            <div className="w-full" style={{ minHeight: "100vh" }}>
+              {farmersInfo.length > 0 && <ChatPage farmersInfo={farmersInfo} />}
+            </div>
           </div>
         )}
       </main>
+
+      <Modal
+        show={showFarmerProfile}
+        onClose={handleFarmerProfileClose}
+        size="4xl"
+      >
+        <Modal.Header>
+          <h2 className="text-2xl font-semibold mb-5 text-gray-900">
+            Farmer Profile
+          </h2>
+        </Modal.Header>
+        <Modal.Body>
+          <FarmerProfile farmerId={selectedFarmerId} />
+        </Modal.Body>
+      </Modal>
 
       {openModal && (
         <Modal show={openModal} onClose={() => setOpenModal(false)} size="4xl">
@@ -305,16 +383,38 @@ const LandApplications = () => {
           <Modal.Body>
             <LandAgreementForm
               preFormData={{
-                landOwnerId,
-                farmerId,
-                landId,
-                landOwnerName,
-                farmerName,
-                landAddress,
+                landApplication,
               }}
             />
           </Modal.Body>
         </Modal>
+      )}
+
+      {openModalAgreement && (
+        <Modal
+          show={openModalAgreement}
+          onClose={() => setOpenModalAgreement(false)}
+          size="4xl"
+        >
+          <Modal.Header>
+            <h2 className="text-2xl font-semibold mb-5 text-gray-900">
+              Land Agreement Detail
+            </h2>
+          </Modal.Header>
+          <Modal.Body>
+            <LandAgreementDetail agreement={selectedLandAgreement} />
+          </Modal.Body>
+        </Modal>
+      )}
+
+      {isConfirmationOpen && (
+        <div className="confirmation-dialog">
+          <p>Are you sure you want to reject this application?</p>
+          <button onClick={() => handleIgnore(pendingApplicationId)}>
+            Confirm
+          </button>
+          <button onClick={() => setIsConfirmationOpen(false)}>Cancel</button>
+        </div>
       )}
 
       <ToastContainer position="top-right" />

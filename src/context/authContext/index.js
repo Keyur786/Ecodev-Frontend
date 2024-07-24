@@ -20,10 +20,8 @@ export function AuthProvider({ children }) {
   const [currentDBUser, setCurrentDBUser] = useState(() => {
     const storedDBData = localStorage.getItem('storedDBData');
     if (storedDBData) {
-      console.log("found Data", storedDBData);
       return JSON.parse(storedDBData);
     } else {
-      console.log("not in data", initialData);
       return initialData;
     }
   });

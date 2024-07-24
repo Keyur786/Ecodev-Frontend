@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ApplicationCard from "./ApplicationCard";
+import ApplicationCard from "./ApplicationCard"; // Adjust the import path as necessary
 
 const applicationStatusCategories = ['Pending', 'Accepted', 'Rejected'];
 
@@ -7,17 +7,19 @@ const LandApplicationsAccordion = ({ applications, farmersInfo, onAccept, onIgno
     const [openPanels, setOpenPanels] = useState(
         applicationStatusCategories.reduce((acc, status) => ({
             ...acc,
-            [status]: true 
+            [status]: true // Set initial state to true for all categories
         }), {})
     );
 
     const toggleDropdown = (status) => {
         setOpenPanels(prevState => ({
             ...prevState,
-            [status]: !prevState[status] 
+            [status]: !prevState[status] // Toggle the current state for the clicked panel
         }));
     };
 
+    // Function to return a friendly name for each status category
+    // You can customize this as needed
     const getFieldName = (field) => {
         switch (field) {
             case 'Pending':

@@ -20,6 +20,8 @@
     "flowbite": "^2.3.0",
     "flowbite-react": "^0.7.5",
     "google-map-react": "^2.2.1",
+    "html2pdf.js": "^0.10.2",
+    "jspdf": "^2.5.1",
     "leaflet": "^1.9.4",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",

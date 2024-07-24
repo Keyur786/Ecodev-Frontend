@@ -111,7 +111,7 @@ function CropPredictionPage() {
 
   const [chartData, setChartData] = useState(null);
 
-  const API_ENDPOINT = "http://127.0.0.1:8000/predict";
+  const API_ENDPOINT = "http://192.168.45.253:8000/predict";
 
   useEffect(() => {
     const recommendations = apiData?.map((crop) => ({
@@ -157,7 +157,7 @@ function CropPredictionPage() {
   const fetchData = async () => {
     try {
       axios
-        .post("http://127.0.0.1:8000/predict", inputs)
+        .post("http://192.168.45.253:8000/predict", inputs)
         .then((response) => {
           console.log("Response:", response.data);
           setApiData(response.data);

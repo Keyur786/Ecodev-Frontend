@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 const LandCard = ({ lands, onLandClick }) => {
   const navigate = useNavigate();
-  console.log("bduhsyw", lands);
   let counter = 0;
   const incrementCount = () => {
     counter++;
@@ -26,7 +25,7 @@ const LandCard = ({ lands, onLandClick }) => {
                 <img
                 onClick={()=>{onLandClick(land)}}
                   className="w-full h-56 object-cover object-center"
-                  src={`http://127.0.0.1:8000/${land.land_image_names[0]}`}
+                  src={`http://192.168.45.253:8000/${land.land_image_names[0]}`}
                   alt="A beautiful farm"
                 />
               </a>

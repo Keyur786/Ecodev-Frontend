@@ -21,7 +21,7 @@ const Header = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/landapplications"
+        "http://192.168.45.253:8000/api/landapplications"
       );
       if (response.data && storedDBData) {
         if (isLandOwner) {
@@ -77,7 +77,7 @@ const Header = () => {
       <NavLink to="/" className="flex items-center space-x-3">
         <img src="./images/logo1.webp" alt="FarmTech logo" className="h-12" />
         {/* <img src="./images/logo.png" alt="FarmTech logo" className="h-12" /> */}
-        <span className="text-xl font-bold">FARMTECH</span>
+        <span className="text-xl font-bold">ECODEVS</span>
       </NavLink>
       <nav className="flex justify-center items-center gap-16 text-lg flex-1">
         {navigationLinks.map(({ path, title }) => (
