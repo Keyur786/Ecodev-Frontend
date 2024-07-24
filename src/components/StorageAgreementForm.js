@@ -7,10 +7,12 @@ const vehicleOptions = [
 ];
 
 const StorageAgreementForm = ({ marker }) => {
+    const storedDBData = JSON.parse(localStorage.getItem('storedDBData'));
+
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
+        firstName: storedDBData.user.first_name,
+        lastName: storedDBData.user.last_name,
+        email: storedDBData.user.email,
         phoneNumber: '',
         address: marker ? marker.street_address : '',
         pickupAddress: '',
@@ -26,7 +28,6 @@ const StorageAgreementForm = ({ marker }) => {
     const [vehicleCost, setVehicleCost] = useState(0);
     const [totalCost, setTotalCost] = useState(0);
 
-    const storedDBData = JSON.parse(localStorage.getItem('storedDBData'));
     
 
     useEffect(() => {
