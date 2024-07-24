@@ -35,7 +35,8 @@ const SignUp = () => {
                 }
             };
 
-            const response = await axios.post("http://127.0.0.1:8000/register/", {
+            // First API Call with axios
+            const response = await axios.post("http://192.168.45.253:8000/register/", {
                 username: username,
                 email: email,
                 password: password,
