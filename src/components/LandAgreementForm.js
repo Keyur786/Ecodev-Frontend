@@ -100,9 +100,9 @@ function LandAgreementForm({preFormData}) {
     };
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/agreements", apiPayload);
-      updateLandApplicationStatus(preFormData.landApplication.id, "Accepted");
-      // console.log(response.data);
+      const response = await axios.post("http://192.168.45.253:8000/api/agreements", apiPayload);
+      updateLandApplicationStatus(`http://192.168.45.253:8000/api/landapplications/${landId}`, 'Accepted');
+      console.log(response.data);
       alert('Agreement Submitted Successfully!');
       navigate('/landapplications')
 
