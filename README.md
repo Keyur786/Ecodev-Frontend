@@ -19,11 +19,6 @@ The project addresses two major challenges in Canadian agriculture: the underuti
 - **Crop Storage Solutions**: Farmers can access an array of secure, temperature-regulated facilities tailored to their specific crop types, ensuring optimal preservation and extended shelf life.
 - **Crop Recommendation System**: By leveraging the Random Forest algorithm and analyzing datasets on temperature, humidity, rainfall, soil type, and regional demographics, the platform provides personalized crop recommendations to farmers.
 
-## Repositories
-
-- **Frontend**: https://github.com/HaRsH8747/farm-tech-frontend
-- **Backend**: https://github.com/HaRsH8747/farm_tech_backend
-
 ## Technologies Used
 
 - **Backend**: Django, Django Rest Framework, PostgreSQL
